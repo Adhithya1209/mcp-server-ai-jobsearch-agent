@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+      "jobspy": {
+        "command": "node",
+        "args": ["/path/to/jobspy-mcp-server/src/index.js"],
+        "env": {
+          "ENABLE_SSE": 0
+        }
+      }
+    }
+  }
