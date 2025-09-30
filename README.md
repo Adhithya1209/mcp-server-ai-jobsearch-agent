@@ -1,2 +1,2 @@
 # mcp-server-ai-jobsearch-agent
-agent that 
+Agent that searches for job postings in social media like linkedin and indeed
