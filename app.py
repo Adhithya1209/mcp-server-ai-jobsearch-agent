@@ -28,20 +28,61 @@ class mcp_server:
     
 
 class agent_architecture:
-    def __init__(self, mcp_server_config: str, system_prompt: str, user_prompt: str):
+    def __init__(self, mcp_server_config: str, system_prompt: str, user_prompt: str, llm: ChatGroq, agent_parameters: dict):
         self.mcp_server_config = mcp_server_config
-        self.system_prompt = system_prompt
+        
         self.user_prompt = user_prompt
-        self.parameters = None
-
+        self.parameters = agent_parameters
+        self.llm = llm
+        if isinstance(system_prompt, type(None)):
+            self.system_prompt = "You are a helpful assistant. Be concise and friendly."
+       
+        else:
+                self.system_prompt = system_prompt
 
     def conversation_history(self):
         conversation_history = [{"role": "system", "content": self.system_prompt}]
         conversation_history.append({"role": "system", "content": self.system_prompt})
         conversation_history.append({"role": "user", "content": self.user_prompt})
         return conversation_history
+
+    def response(self):
+        response = self.llm.chat.completions.create(
+            model=self.model,
+            messages=self.conversation_history(),
+            **self.parameters
+        )
+        return response.choices[0].message.content
     
-  
+    def define_tools(self):
+        tool_definitions = [
+        {
+            "type": "function",
+            "function": {
+                "name": "search_jobs",
+                "description": "Search for job listings based on search term and location. Returns job postings with details like title, company, location, and description.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "search_term": {
+                            "type": "string",
+                            "description": "Job title or keywords to search for, e.g. 'Python Developer', 'Data Scientist'"
+                        },
+                        "location": {
+                            "type": "string",
+                            "description": "Location to search jobs in, e.g. 'San Francisco, CA', 'Remote'"
+                        },
+                        "results_wanted": {
+                            "type": "integer",
+                            "description": "Number of job results to return (default: 10)",
+                            "default": 10
+                        }
+                    },
+                    "required": ["search_term", "location"]
+                }
+            }
+        }
+    ]
     
         
     
