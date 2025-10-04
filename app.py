@@ -22,3 +22,26 @@ class mcp_server:
     def get_llm(self):
         return self.llm
         
+    def connect_to_mcp_server(self, mcp_server_config: str):
+        mcp_server_config = self.get_mcp_server_config(mcp_server_config)
+        return mcp_server_config["mcpServers"]
+    
+
+class agent_architecture:
+    def __init__(self, mcp_server_config: str, system_prompt: str, user_prompt: str):
+        self.mcp_server_config = mcp_server_config
+        self.system_prompt = system_prompt
+        self.user_prompt = user_prompt
+        self.parameters = None
+
+
+    def conversation_history(self):
+        conversation_history = [{"role": "system", "content": self.system_prompt}]
+        conversation_history.append({"role": "system", "content": self.system_prompt})
+        conversation_history.append({"role": "user", "content": self.user_prompt})
+        return conversation_history
+    
+  
+    
+        
+    
