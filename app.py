@@ -83,6 +83,33 @@ class agent_architecture:
             }
         }
     ]
-    
+        def search_jobs(self, search_term: str, location: str, results_wanted: int):
+            mock_results = f"""
+            Found {results_wanted} jobs for '{search_term}' in '{location}':
+            
+            1. Senior {search_term} - TechCorp
+            Location: {location}
+            Salary: $120k-150k
+            Posted: 2 days ago
+            
+            2. {search_term} - StartupXYZ
+            Location: {location}
+            Salary: $100k-130k
+            Posted: 5 days ago
+            
+            3. Lead {search_term} - BigCompany
+            Location: {location}
+            Salary: $140k-180k
+            Posted: 1 week ago
+            """
+            
+            return mock_results
         
+        # Map function names to implementations
+        available_functions = {
+            "search_jobs": search_jobs
+        }
+        
+        return tool_definitions, available_functions
+            
     
